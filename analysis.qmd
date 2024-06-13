@@ -1,0 +1,34 @@
+---
+title: "Census Tracts"
+author: "Ashwika Katiyar"
+format: html
+execute: 
+  echo: false
+---
+
+```{r}
+#| label: setup
+#| message: false
+
+library(tidyverse)
+library(ggbeeswarm)
+```
+
+```{r}
+#| message: false
+nyc_tracts <- 
+  read_csv("data/nyc_tracts.csv", show_col_types = FALSE)
+
+nyc_tracts |> 
+  drop_na() |>
+  ggplot(aes(x = med_income, y = race, colour = med_income)) +
+    geom_quasirandom(alpha = 0.5) +
+    scale_color_viridis_c(guide = "none") +
+    scale_x_continuous(labels = scales::dollar_format()) +
+    labs(title = "Household income distribution by largest racial/ethnic group",
+       subtitle = "Census tracts, New York City",
+       x = "Median household income",
+       y = "Largest group in Census tract",
+       caption = "Data source: 2016-2020 ACS")
+```
+
